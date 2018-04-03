@@ -4,24 +4,7 @@ import re
 import codecs
 import os
 import pynlpir
-#
-# file = codecs.open("./hanyu_output_dp.txt", "r", "utf-8")
-# string = file.read()
-# file.close()
-# # print(string)
-# #
-# juzi = re.findall('.*?\r\n\r\n',string,re.S)
-#
-# # #
-# n = 1
-# for x in juzi:
-#     number = str(n).zfill(5)
-#     s = 'S'+number+'\r\n'+x
-#     print(s)
-#     file1 = codecs.open("./hanyu_output_dp_id.txt", "a", "utf-8")
-#     file1.write(s)
-#     file1.close()
-#     n +=1
+
 # s = juzi[0]
 # # file1 = codecs.open("./hanyu_qChong.txt", "a", "utf-8")
 # # file1.write(s)
@@ -198,36 +181,78 @@ import pynlpir
 
 
 #对去重的句子进行分词
-file1 = codecs.open("./汉语/(新)hanyu_output_qchong(加句子ID).txt", "r", "utf-8")
-s = file1.read()
-file1.close()
+# file1 = codecs.open("./汉语/(新)hanyu_output_qchong(加句子ID).txt", "r", "utf-8")
+# s = file1.read()
+# file1.close()
+#
+#
+# list = re.findall('.*?\|(.*?)\r\n',s)
+# # print(len(list))
+# pynlpir.open()
+# pynlpir.segment(s, pos_tagging=False)
+# n = 1
+#
+# for line in list:
+#     number = 'S'+str(n).zfill(5)
+#     string = ''
+#     s=pynlpir.segment(line,pos_tagging=False)
+#     i = 1
+#     for word in s:
+#         if i == 1:
+#             string += word
+#             i += 1
+#         else:
+#             string+= ' '+word
+#     string = string + '\r\n'
+#     file2 = codecs.open("./汉语/(新)hanyu_output_cws.txt", "a", "utf-8")
+#     file2.write(string)
+#     file2.close()
+#     total = number + '|'+string
+#     print(total)
+#     file3 = codecs.open("./汉语/(新)hanyu_output_cws(加句子id).txt", "a", "utf-8")
+#     file3.write(total)
+#     file3.close()
+#     n+=1
+# pynlpir.close()
 
+#给dp句子加上id
+#
+# file = codecs.open("./(新)hanyu_output_dp.txt", "r", "utf-8")
+# string = file.read()
+# file.close()
+# # print(string)
+# #
+# juzi = re.findall('.*?\r\n\r\n',string,re.S)
+#
+# #
+# # #
+# n = 1
+# for x in juzi:
+#     number = str(n).zfill(5)
+#     s = 'S'+number+'\r\n'+x
+#     print(s)
+#     file1 = codecs.open("(新)hanyu_output_dp_id.txt", "a", "utf-8")
+#     file1.write(s)
+#     file1.close()
+#     n +=1
 
-list = re.findall('.*?\|(.*?)\r\n',s)
-# print(len(list))
-pynlpir.open()
-pynlpir.segment(s, pos_tagging=False)
+#给cp句子加上id
+#
+file = codecs.open("./(新)hanyu_output_cp.txt", "r", "utf-8")
+string = file.read()
+file.close()
+# print(string)
+#
+juzi = re.findall('.*?\r\n',string,re.S)
+# print(len(juzi))
+# #
+# # #
 n = 1
-
-for line in list:
-    number = 'S'+str(n).zfill(5)
-    string = ''
-    s=pynlpir.segment(line,pos_tagging=False)
-    i = 1
-    for word in s:
-        if i == 1:
-            string += word
-            i += 1
-        else:
-            string+= ' '+word
-    string = string + '\r\n'
-    file2 = codecs.open("./汉语/(新)hanyu_output_cws.txt", "a", "utf-8")
-    file2.write(string)
-    file2.close()
-    total = number + '|'+string
-    print(total)
-    file3 = codecs.open("./汉语/(新)hanyu_output_cws(加句子id).txt", "a", "utf-8")
-    file3.write(total)
-    file3.close()
-    n+=1
-pynlpir.close()
+for x in juzi:
+    number = str(n).zfill(5)
+    s = 'S'+number+'\r\n'+x
+    print(s)
+    file1 = codecs.open("(新)hanyu_output_cp_id.txt", "a", "utf-8")
+    file1.write(s)
+    file1.close()
+    n +=1
