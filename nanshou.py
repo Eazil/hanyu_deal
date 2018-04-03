@@ -238,21 +238,52 @@ import pynlpir
 
 #给cp句子加上id
 #
-file = codecs.open("./(新)hanyu_output_cp.txt", "r", "utf-8")
+# file = codecs.open("./(新)hanyu_output_cp.txt", "r", "utf-8")
+# string = file.read()
+# file.close()
+# # print(string)
+# #
+# juzi = re.findall('.*?\r\n',string,re.S)
+# # print(len(juzi))
+# # #
+# # # #
+# n = 1
+# for x in juzi:
+#     number = str(n).zfill(5)
+#     s = 'S'+number+'\r\n'+x
+#     print(s)
+#     file1 = codecs.open("(新)hanyu_output_cp_id.txt", "a", "utf-8")
+#     file1.write(s)
+#     file1.close()
+#     n +=1
+
+#句子依存距离总和yc_total和依存距离平均值yc_v
+def ycjl(string):
+    number_list = re.findall('(\d*)\t.*?\t.*?\t(.*?)\t.*?\r\n',string)
+    word_n = len(number_list)
+    yc_total = 0
+    yc_v = 0
+    for n_list in number_list:
+        distance = 0
+        if n_list[1] != '-1':
+            local = int(n_list[0])
+            point = int(n_list[1])
+            # print(local)
+            distance = abs(point - local + 1)
+            # print(distance)
+            yc_total += distance
+    yc_v = round(yc_total / word_n,1)
+    # print(yc_v)
+    return [yc_total,yc_v]
+
+
+file = codecs.open("./(新)hanyu_output_dp_id.txt", "r", "utf-8")
 string = file.read()
 file.close()
-# print(string)
-#
-juzi = re.findall('.*?\r\n',string,re.S)
-# print(len(juzi))
-# #
-# # #
-n = 1
-for x in juzi:
-    number = str(n).zfill(5)
-    s = 'S'+number+'\r\n'+x
-    print(s)
-    file1 = codecs.open("(新)hanyu_output_cp_id.txt", "a", "utf-8")
-    file1.write(s)
-    file1.close()
-    n +=1
+
+for i in range(1,39960):
+    number = 'S' + str(i).zfill(5)
+    s_list = re.search(number+'\r\n(.*?\r\n)\r\n',string,re.S)
+    input = s_list[1]
+    list = ycjl(input)
+
