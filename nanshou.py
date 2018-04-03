@@ -3,7 +3,7 @@
 import re
 import codecs
 import os
-
+import pynlpir
 #
 # file = codecs.open("./hanyu_output_dp.txt", "r", "utf-8")
 # string = file.read()
@@ -74,34 +74,6 @@ import os
 #         file1.write(to)
 #         file1.close()
 #
-
-# import pynlpir
-#
-# file1 = codecs.open("./汉语/hanyu_unique_output.txt", "r", "utf-8")
-# s = file1.read()
-# file1.close()
-#
-# list = re.findall('.*?\|(.*?)\n',s)
-# pynlpir.open()
-# # pynlpir.segment(s, pos_tagging=False)
-#
-# for line in list:
-#     string = ''
-#     s=pynlpir.segment(line,pos_tagging=False)
-#     i = 1
-#     for word in s:
-#         if i == 1:
-#             string += word
-#             i += 1
-#         else:
-#             string+= ' '+word
-#     string = string + '\r\n'
-#     print(string)
-#     file2 = codecs.open("./hanyu_ouput_fenci.txt", "a", "utf-8")
-#     file2.write(string)
-#     file2.close()
-#
-# pynlpir.close()
 
 #计算标点句的个数sentence及标点句平均词数 word_v
 
@@ -192,21 +164,70 @@ import os
 #
 #     # else:
 #     #     print('False:'+string)
-#提取niuparser子句
-file1 = codecs.open('./hanyu_新工具.txt', "r", "utf-8")
-s = file1.read()
-file1.close()
 
-list = re.findall("(S\d{5}\r\n)",s)
-print(len(list))
-file1 = codecs.open('./hanyu_output_dp_id.txt', "r", "utf-8")
-s1 = file1.read()
-file1.close()
-# for i in list:
-#     x = re.search(i+'.*?\r\n\r\n',s1,re.S)
-#     print(x[0])
-#     file1 = codecs.open('./hanyu_dp.txt', "a", "utf-8")
-#     file1.write(x[0])
+# #提取niuparser子句
+# file1 = codecs.open('./hanyu_新工具.txt', "r", "utf-8")
+# s = file1.read()
+# file1.close()
+#
+# list = re.findall("(S\d{5}\r\n)",s)
+# print(len(list))
+# file1 = codecs.open('./hanyu_output_dp_id.txt', "r", "utf-8")
+# s1 = file1.read()
+# file1.close()
+# # for i in list:
+# #     x = re.search(i+'.*?\r\n\r\n',s1,re.S)
+# #     print(x[0])
+# #     file1 = codecs.open('./hanyu_dp.txt', "a", "utf-8")
+# #     file1.write(x[0])
+# #     file1.close()
+
+#汉语句子提取id及相应句子的去重
+# file1 = codecs.open('./(新)hanyu_output(加句子ID).txt', "r", "utf-8")
+# s = file1.read()
+# file1.close()
+#
+# for i in range(1,39960):
+#     number = 'S'+str(i).zfill(5)
+#     string = re.search(number+'\|.*?\|.*?\|.*?\|(.*?)\|.*?\r\n',s)
+#     total = number+'|'+string[1]+'\r\n'
+#     print(total)
+#     file1 = codecs.open('./(新)hanyu_output_qchong(加句子ID).txt', "a", "utf-8")
+#     file1.write(total)
 #     file1.close()
 
 
+#对去重的句子进行分词
+file1 = codecs.open("./汉语/(新)hanyu_output_qchong(加句子ID).txt", "r", "utf-8")
+s = file1.read()
+file1.close()
+
+
+list = re.findall('.*?\|(.*?)\r\n',s)
+# print(len(list))
+pynlpir.open()
+pynlpir.segment(s, pos_tagging=False)
+n = 1
+
+for line in list:
+    number = 'S'+str(n).zfill(5)
+    string = ''
+    s=pynlpir.segment(line,pos_tagging=False)
+    i = 1
+    for word in s:
+        if i == 1:
+            string += word
+            i += 1
+        else:
+            string+= ' '+word
+    string = string + '\r\n'
+    file2 = codecs.open("./汉语/(新)hanyu_output_cws.txt", "a", "utf-8")
+    file2.write(string)
+    file2.close()
+    total = number + '|'+string
+    print(total)
+    file3 = codecs.open("./汉语/(新)hanyu_output_cws(加句子id).txt", "a", "utf-8")
+    file3.write(total)
+    file3.close()
+    n+=1
+pynlpir.close()
